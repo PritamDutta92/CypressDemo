@@ -66,6 +66,11 @@ class Cartpage {
        
     }
 
+    ClickCheckoutButton(){
+
+        cy.get('button#checkout').scrollIntoView().click({ force: true });
+    }
+
 
 }
 
