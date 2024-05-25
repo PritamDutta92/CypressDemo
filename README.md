@@ -14,7 +14,7 @@ This repository is holding a Cypress Demo project in Behavior Driven Development
 
 ##	Running Tests
 
-  To run tests, execue the following command from project root directory (CypressDemo\CypressSampleProject)
+  To run tests, execute the following command from project root directory (CypressDemo\CypressSampleProject)
 ```bash
    npx cypress run --spec "**\saucedemo.feature" --browser chrome
 ```	
