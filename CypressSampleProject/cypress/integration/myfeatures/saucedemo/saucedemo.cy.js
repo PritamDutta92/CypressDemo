@@ -1,11 +1,17 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then, And } from 'cypress-cucumber-preprocessor/steps';
 import loginpage from '../AllPages/loginpage.cy';
 import SwagLabsLandingPage from '../AllPages/SwagLabsLandingPage.cy';
 import Cartpage from '../AllPages/Cartpage.cy';
+import Yourinfo from '../AllPages/Yourinfo.cy';
+import CheckoutOverview from '../AllPages/CheckoutOverview.cy';
+import CheckoutComplete from '../AllPages/CheckoutComplete.cy';
 
 const loginpageobj = new loginpage();
 const SwagLabsLandingPageobj = new SwagLabsLandingPage();
 const Cartpageobj = new Cartpage();
+const Yourinfoobj = new Yourinfo();
+const CheckoutOverviewobj = new CheckoutOverview();
+const CheckoutCompleteobj = new CheckoutComplete();
 
 beforeEach(() => {
     Cypress.on('uncaught:exception', (err, runnable) => {
@@ -31,8 +37,7 @@ beforeEach(() => {
   Then ('the password validation failure message should be displayed', () => {
 
     loginpageobj.VerifyPasswordValidationErrorMessage();
-    //cy.screenshot('PasswordVerificationMessage.jpg');
-    cy.wait(1000);
+    cy.screenshot('PasswordVerificationMessage.jpg');
 
   });
 
@@ -46,14 +51,14 @@ beforeEach(() => {
   Then ('the user should be able to login successfully', () => {
 
     loginpageobj.VerifyLandingPageAfterlogin();
-    //cy.screenshot('LandingPageAfterLogin.jpg');
-    cy.wait(1000);
+    cy.screenshot('LandingPageAfterLogin.jpg');
 
   });
 
   When('the user filters the product by price low to high', () => {
 
     SwagLabsLandingPageobj.FilterproductsPriceLowtoHigh();
+    cy.screenshot('AfterFilterPriceLowtoHigh.jpg');
   });
 
   Then ('the user should be able to filter it', () => {
@@ -64,11 +69,12 @@ beforeEach(() => {
   When('the user selects shopping items', () => {
 
     SwagLabsLandingPageobj.AddFirstandLastListedProductinCart();
+    cy.screenshot('AddFirstandLastListedItems.jpg');
   });
 
   Then ('the user should be able to add them in cart', () => {
 
-    cy.wait(1000);
+    
     SwagLabsLandingPageobj.GetFirstProductDescriptionsinLandingPage();
     SwagLabsLandingPageobj.GetLastProductDescriptionsinLandingPage();
     SwagLabsLandingPageobj.GetFirstProductPriceinLandingPage();
@@ -86,6 +92,38 @@ beforeEach(() => {
     Cartpageobj.VerifyLastProductDescriptioninCart();
     Cartpageobj.VerifyFirstProductPriceinCart();
     Cartpageobj.VerifyLastProductPriceinCart();
-    cy.wait(1000);
+  });
+
+  When('the user adds a product to the cart', () => {
+
+    SwagLabsLandingPageobj.AddProducttoCart();
+    cy.screenshot('AddproducttoCart.jpg');
+    SwagLabsLandingPageobj.GotoCartPage();
+    cy.screenshot('CartPage.jpg');
+  });
+
+  Then('the user should be able to do checkout via cart page', () => {
+
+    Cartpageobj.ClickCheckoutButton();
+  });
+
+  When('the user fills in all required information', () => {
+
+    Yourinfoobj.VerifyYourinfoPageloaded();
+    Yourinfoobj.Enteryourinfo();
+    cy.screenshot('YourInfo.jpg');
+    Yourinfoobj.ClickContinuebuttoninYourinfo();
+  });
+
+  Then('the user should be able to complete the checkout', () => {
+
+    CheckoutOverviewobj.ClickonFinishButton();
+  });
+
+  And('the user should be able to verify checkout completion and order dispatch message', () => {
+
+    cy.screenshot('OrderPlacement.jpg');
+    CheckoutCompleteobj.VerifyCheckoutComplete();
+    CheckoutCompleteobj.VerifyOrderDispatchMessage();
   });
 

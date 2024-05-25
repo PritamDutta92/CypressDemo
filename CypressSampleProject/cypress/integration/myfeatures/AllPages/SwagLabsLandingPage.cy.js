@@ -62,6 +62,11 @@ class SwagLabsLandingPage {
         })
     }
 
+    AddProducttoCart(){
+
+        cy.get('button#add-to-cart-sauce-labs-backpack').scrollIntoView().click({ force: true });
+    }
+
     GotoCartPage(){
 
         cy.get('a.shopping_cart_link').scrollIntoView().click({ force: true });
